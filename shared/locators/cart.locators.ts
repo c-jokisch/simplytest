@@ -1,14 +1,20 @@
 export const cartLocators = {
-  emptyCartMessageClass: '.cart-empty',
-  cartHeaderPriceClass: '#site-header-cart .woocommerce-Price-amount.amount',
 
-  cartRow: 'tr.cart_item',
-  quantityInput: 'input.qty',
-  productSubtotal: 'td.product-subtotal .amount',
-  cartTotalsSubtotal: '.cart-subtotal .amount',
-  cartOrderTotal: '.order-total .amount',
+  emptyMessage: ".cart-empty",
 
-  updateCartButtonRole: { role: 'button', name: /Update cart/i },
-  successMessageRole: { role: 'alert' }
+  row: {
+    container: "tr.cart_item",
+    quantityInput: "input.qty",
+    subtotal: "td.product-subtotal .amount",
+  },
+
+  totals: {
+    subtotal: ".cart-subtotal .amount",
+    orderTotal: ".order-total .amount",
+  },
+
+  actions: {
+    updateButtonName: /Update cart/i,
+  },
 
 } as const;

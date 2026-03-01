@@ -14,43 +14,38 @@ export class CartPage extends BasePage {
   // ============================================================================
 
   get cartEmptyMessage(): Locator {
-    return this.page.locator(cartLocators.emptyCartMessageClass);
+    return this.page.locator(cartLocators.emptyMessage);
   }
 
   get updateCartButton(): Locator {
-    return this.page.getByRole(
-      cartLocators.updateCartButtonRole.role,
-      { name: cartLocators.updateCartButtonRole.name }
-    );
+    return this.page.getByRole('button', { name: cartLocators.actions.updateButtonName });
   }
 
   get cartSuccessMessage(): Locator {
-    return this.page.getByRole(
-      cartLocators.successMessageRole.role
-    );
+    return this.page.getByRole("alert");
   }
 
   get cartTotalsSubtotal(): Locator {
-    return this.page.locator(cartLocators.cartTotalsSubtotal);
+    return this.page.locator(cartLocators.totals.subtotal);
   }
 
   get cartOrderTotal(): Locator {
-    return this.page.locator(cartLocators.cartOrderTotal);
+    return this.page.locator(cartLocators.totals.orderTotal);
   }
 
   private cartRow(productName: string): Locator {
     return this.page
-      .locator(cartLocators.cartRow, { hasText: productName });
+      .locator(cartLocators.row.container, { hasText: productName });
   }
 
   private quantityInput(productName: string): Locator {
     return this.cartRow(productName)
-      .locator(cartLocators.quantityInput);
+      .locator(cartLocators.row.quantityInput);
   }
 
   productSubtotal(productName: string): Locator {
     return this.cartRow(productName)
-      .locator(cartLocators.productSubtotal);
+      .locator(cartLocators.row.subtotal);
   }
 
   // ============================================================================

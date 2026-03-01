@@ -14,10 +14,7 @@ export class ProductPage {
   // ============================================================================
 
   private addToCartButton(): Locator {
-    return this.page.getByRole(
-      productLocators.addToCartButtonRole.role,
-      { name: productLocators.addToCartButtonRole.name }
-    );
+    return this.page.getByRole("button", { name: productLocators.addToCartButtonRole });
   }
 
   private successMessage(productName: string): Locator {
@@ -39,13 +36,7 @@ export class ProductPage {
 
   private async goToCartAfterAdd(): Promise<void> {
     const message = this.page.locator(productLocators.successMessage);
-
-    await message
-      .getByRole(
-        productLocators.viewCartLinkRole.role,
-        { name: productLocators.viewCartLinkRole.name }
-      )
-      .click();
+    await message.getByRole("link", { name: productLocators.viewCartLinkRole }).click();
   }
 
   // ============================================================================
