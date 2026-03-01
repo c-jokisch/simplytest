@@ -10,21 +10,21 @@ export const cartExpect = baseExpect.extend({
     // Check if the empty cart message is displayed
     try {
       await baseExpect(cartPage.cartEmptyMessage).toHaveText(cartData.cart.messages.empty);
-    } catch (error) {
+    } catch {
       errors.push("Empty cart message not found");
     }
 
     // Check if the cart total shows "0,00 €"
     try {
       await baseExpect(cartPage.cartHeaderTotal).toHaveText(cartData.cart.header.totalEmptyMoney);
-    } catch (error) {
+    } catch {
       errors.push(`Display does not contain "${cartData.cart.header.totalEmptyMoney}".`);
     }
 
     // Check if the cart badge shows "0 items"
     try {
       await baseExpect(cartPage.cartBadge).toHaveText(cartData.cart.header.badgeZero);
-    } catch (error) {
+    } catch {
       errors.push(`Cart badge is not "${cartData.cart.header.badgeZero}".`);
     }
 
@@ -41,35 +41,36 @@ export const cartExpect = baseExpect.extend({
 
     try {
       await baseExpect(cartPage.pageInstance).toHaveURL(expectedPath);
-    } catch (error) {
+    } catch {
       errors.push(`Expected URL to contain "${expectedPath}".`);
     }
 
     try {
       await baseExpect(cartPage.pageInstance.getByRole("alert")).toHaveText(/Cart updated\./i);
-    } catch (error) {
+    } catch {
       errors.push("Cart updated message not displayed.");
     }
 
     try {
       await baseExpect(cartPage.cartTotalsSubtotal).toHaveText(expectedSubtotal);
-    } catch (error) {
+    } catch  {
       errors.push(`Cart subtotal is not "${expectedSubtotal}".`);
     }
 
     try {
       await baseExpect(cartPage.cartOrderTotal).toHaveText(expectedOrderTotal);
-    } catch (error) {
+    } catch  {
       errors.push(`Cart order total is not "${expectedOrderTotal}".`);
     } 
 
     try {
       await baseExpect(cartPage.cartHeaderTotal).toHaveText(expectedTotal);
-    } catch (error) {
+    } catch  {
       errors.push(`Cart total is not "${expectedTotal}".`);
     }
 
     const pass = errors.length === 0;
+
     return {
       pass,
       message: () => (pass ? "Expected cart not to be updated." : errors.join("\n"))

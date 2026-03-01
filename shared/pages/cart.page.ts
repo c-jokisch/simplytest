@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 import { cartLocators } from "../locators/cart.locators";
 import { BasePage } from "./base.page";
 
@@ -34,34 +34,30 @@ export class CartPage extends BasePage {
   }
 
   private cartRow(productName: string): Locator {
-    return this.page
-      .locator(cartLocators.row.container, { hasText: productName });
+    return this.page.locator(cartLocators.row.container, { hasText: productName });
   }
 
   private quantityInput(productName: string): Locator {
-    return this.cartRow(productName)
-      .locator(cartLocators.row.quantityInput);
-  }
-
-  productSubtotal(productName: string): Locator {
-    return this.cartRow(productName)
-      .locator(cartLocators.row.subtotal);
+    return this.cartRow(productName).locator(cartLocators.row.quantityInput);
   }
 
   // ============================================================================
   // ACTIONS
   // ============================================================================
 
-  private async setQuantity(productName: string, quantity: number): Promise<void> {
-    const input = this.quantityInput(productName);
-    await input.fill(String(quantity));
-    await input.dispatchEvent("input");
-    await input.dispatchEvent("change");
-  }
+private async setQuantity(productName: string, quantity: number): Promise<void> {
+  const input = this.quantityInput(productName);
 
-  private async submitCartUpdate(): Promise<void> {
-    await this.updateCartButton.waitFor({ state: 'attached' });
-    await this.updateCartButton.click();
+    // Ensure the quantity input is rendered and interactable before setting the value
+    await input.waitFor({ state: "visible" });
+
+    // Clear the existing value and type the new quantity with a slight delay to mimic user input
+    await input.clear();
+    await input.type(String(quantity), { delay: 50 });
+
+    // Clicking outside the input to trigger any change events
+    await input.press('Tab');
+
   }
 
   async configureCartForProduct(product: {
@@ -80,8 +76,8 @@ export class CartPage extends BasePage {
         await this.setQuantity(name, qty);
       }
     }
- 
-    await this.submitCartUpdate();
+
+    await this.updateCartButton.click();
     await this.cartSuccessMessage.waitFor({ state: "visible" });
   }
 }

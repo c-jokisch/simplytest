@@ -1,18 +1,22 @@
 export const productLocators = {
+  actions: {
+    addToCartButtonName: /Add to cart/i,
+    viewCartLinkName: /View cart/i,
+  },
 
-  addToCartButtonRole: /Add to cart/i,
+  variation: {
+    container: ".single_variation_wrap",
+    readyState: ".woocommerce-variation-add-to-cart-enabled",
+    select: (attribute: string) =>
+      `select[name*="${attribute}"]`,
+  },
 
-  variationSelect: (attribute: string) =>
-    `select[name*="${attribute}"]`,
+  grouped: {
+    row: "tr.cart_item, tr.product", 
+    quantityInput: "input.qty",
+  },
 
-  variationWrap: ".single_variation_wrap",
-  variationReadyState: ".woocommerce-variation-add-to-cart-enabled",
-
-  groupedRow: "tr",
-  groupedQuantityInput: "input.qty",
-
-  successMessage: ".woocommerce-message",
-
-  viewCartLinkRole: /View cart/i,
-  
+  messages: {
+    success: ".woocommerce-message",
+  },
 } as const;

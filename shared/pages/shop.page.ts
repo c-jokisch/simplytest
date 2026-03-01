@@ -24,10 +24,6 @@ export class ShopPage extends BasePage {
     return this.productContainer(productName).getByRole("link", { name: shopLocators.product.buttons.addToCart });
   }
 
-  private viewCartLink(productName: string): Locator {
-    return this.productContainer(productName).getByRole("link", { name: shopLocators.product.buttons.viewCart });
-  }
-
   private addVariableProductButton(productName: string): Locator {
     return this.productContainer(productName).getByRole("link", { name: shopLocators.product.buttons.selectOptions });
   }
@@ -71,32 +67,25 @@ private async waitForProductAdded(product: Locator) {
 }
 
   // To simplify no product type defined 
-  async actionButton( productName: string, type: string): Promise<void> {
+  async selectProduct( productName: string, type: string): Promise<void> {
 
   switch (type) {
+      case "simple": {
+        await this.addToCartButton(productName).click();
+        await this.waitForProductNotLoading(this.addToCartButton(productName));
+        await this.waitForProductAdded(this.addToCartButton(productName));
+        break;
+      }
 
-    case "simple": {
-      await this.addToCartButton(productName).click();
-      await this.waitForProductNotLoading(this.addToCartButton(productName));
-      await this.waitForProductAdded(this.addToCartButton(productName));
-      await this.viewCartLink(productName).waitFor({ state: "visible" });
-      await this.viewCartLink(productName).click();
-      break;
+      case "variable": {
+        await this.addVariableProductButton(productName).click();
+        break;
+      }
+
+      case "grouped": {
+        await this.addGroupedProductButton(productName).click();
+        break;
+      }
     }
-
-    case "variable": {
-      await this.addVariableProductButton(productName).click();
-      break;
-    }
-
-    case "grouped": {
-      await this.addGroupedProductButton(productName).click();
-      break;
-    }
-  }
-}
-
-  async selectProduct( productName: string, type: string ): Promise<void> {
-    await this.actionButton(productName, type);
   }
 }

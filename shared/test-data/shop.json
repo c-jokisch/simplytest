@@ -2,7 +2,8 @@
   "shop": {
     "expected": {
       "url": "https://autoprojekt.simplytest.de/",
-      "title": "Shop"
+      "title": "Automation Test Project – A great opportunity to test a real-world example…",
+      "h1": "Shop"
     }
   }
 }

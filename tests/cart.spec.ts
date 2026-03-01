@@ -1,17 +1,35 @@
-import { expect, test } from '../shared/fixtures/base.fixture';
+import { test } from '../shared/fixtures/base.fixture';
 import { cartExpect } from "../shared/matchers/cart.matcher";
+import { baseExpect, expect } from "../shared/matchers/base.matcher";
 import products from "../shared/test-data/products.json";
+import shopData from "../shared/test-data/shop.json";
+
 
 // ============================================================================
 // FEATURE: Shopping Cart
 // ============================================================================
 
-test.beforeEach(async ({ basePage }) => {
+
+test('Check the current state of the shopping page', async ({ basePage, cartPage }, testInfo) => {
+
+    // GIVEN the cart page
+    // WHEN visiting the cart page
+    await basePage.gotoPage(testInfo.project.use.baseURL);
+      
+    await baseExpect(cartPage).toHaveNavigatedSuccessfully({
+          url: shopData.shop.expected.url,
+          title: shopData.shop.expected.title,
+          h1: shopData.shop.expected.h1,
+    });
+
+  }); 
+
+test.beforeEach(async ({ basePage },  testInfo) => {
 
   // --------------------------------------------------------------------------
   // Background
   // --------------------------------------------------------------------------
-      await basePage.gotoPage("/");
+    await basePage.gotoPage(testInfo.project.use.baseURL);
 
   });
 
@@ -21,14 +39,13 @@ test.beforeEach(async ({ basePage }) => {
 
   test.describe("Feature: Shopping Cart", () => {
 
-  test('Empty cart is displayed when no products exist', async ({ basePage, cartPage }) => {
-    // GIVEN no products in the cart
-    // WHEN visiting the cart page
-    await basePage.gotoPage("/cart/");
-    // THEN an empty cart is displayed
-    await cartExpect(cartPage).toBeEmptyCart();
-  });
-
+    test('Empty cart is displayed when no products exist', async ({ basePage, cartPage }) => {
+      // GIVEN no products in the cart
+      // WHEN visiting the cart page
+      await basePage.gotoPage("/cart/");
+      // THEN an empty cart is displayed
+      await cartExpect(cartPage).toBeEmptyCart();
+    });
 
   test.describe("Add different types of items to the cart", () => {
 
@@ -48,5 +65,7 @@ test.beforeEach(async ({ basePage }) => {
         }
       );
     }
-  });
+  }); 
 });
+
+

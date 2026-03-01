@@ -1,5 +1,4 @@
 export const cartLocators = {
-
   emptyMessage: ".cart-empty",
 
   row: {
@@ -16,5 +15,4 @@ export const cartLocators = {
   actions: {
     updateButtonName: /Update cart/i,
   },
-
 } as const;

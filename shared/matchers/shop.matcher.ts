@@ -4,19 +4,24 @@ import { ShopPage } from "../pages/shop.page";
 export const shopExpect = baseExpect.extend({
     // Validates that the shop page URL matches the expected pattern
     async toHaveURL(shopPage: ShopPage, expected: RegExp | string) {
+        let message: string;
+        let pass: boolean;
+
         try {
             // Attempt to match the URL
             await baseExpect(shopPage.pageInstance).toHaveURL(expected);
-            return {
-                pass: true,
-                message: () => `Expected URL to match ${expected}, and it did.`
-            };
-        } catch (error) {
+                pass = true,
+                message = `Expected URL to match ${expected}, and it did.`
+           
+        } catch {
             // URL did not match
-            return {
-                pass: false,
-                message: () => `Expected URL to match ${expected}, but it did not.`
-            };
+                pass = false,
+                message = `Expected URL to match ${expected}, but it did not.`
         }
+
+        return {
+            pass: false,
+            message: () => message
+        };
     }
 });
