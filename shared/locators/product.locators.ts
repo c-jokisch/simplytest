@@ -1,9 +1,6 @@
 export const productLocators = {
-    
-  addToCartButtonRole: {
-    role: "button",
-    name: /Add to cart/i
-  },
+
+  addToCartButtonRole: /Add to cart/i,
 
   variationSelect: (attribute: string) =>
     `select[name*="${attribute}"]`,
@@ -16,9 +13,6 @@ export const productLocators = {
 
   successMessage: ".woocommerce-message",
 
-  viewCartLinkRole: {
-    role: "link",
-    name: /View cart/i
-  }
-
+  viewCartLinkRole: /View cart/i,
+  
 } as const;
