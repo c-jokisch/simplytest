@@ -1,0 +1,22 @@
+{
+  "name": "simplytest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "test:ui": "playwright test --ui",
+  "test:headed": "playwright test --headed",
+  "test:debug": "playwright test --debug",
+  "report": "playwright show-report",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.0",
+    "axe-html-reporter": "^2.2.11",
+    "dotenv": "^17.3.1"
+  }
+}

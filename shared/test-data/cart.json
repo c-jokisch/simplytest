@@ -1,0 +1,11 @@
+{
+  "cart": {
+    "messages": {
+      "empty": "Your cart is currently empty."
+    },
+    "header": {
+        "badgeZero": "0 items",
+        "totalEmptyMoney": "0,00 €"
+    }
+  }
+}

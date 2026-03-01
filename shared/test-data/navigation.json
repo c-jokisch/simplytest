@@ -1,0 +1,34 @@
+{
+  "pages": [
+    {
+      "label": "Home",
+      "path": "/",
+      "title": "Automation Test Project – A great opportunity to test a real-world example…",
+      "h1": "Shop"
+    },
+    {
+      "label": "Cart",
+      "path": "/cart/",
+      "title": "Cart – Automation Test Project",
+      "h1": "Cart"
+    },
+    {
+      "label": "Checkout Page",
+      "path": "/checkout/",
+      "title": "Checkout – Automation Test Project",
+      "h1": "Checkout"
+    },
+    {
+      "label": "Contact Page",
+      "path": "/contact/",
+      "title": "Contact Page – Automation Test Project",
+      "h1": "Contact Page"
+    },
+    {
+      "label": "My Account",
+      "path": "/my-account/",
+      "title": "My Account – Automation Test Project",
+      "h1": "My Account"
+    }
+  ]
+}

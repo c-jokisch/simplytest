@@ -1,0 +1,65 @@
+{
+  "Album": {
+    "name": "Album",
+    "type": "simple",
+    "quantity": 2,
+    "price": "15,00 €",
+    "expected": {
+      "path": "/cart/",
+      "expectedTotal": "30,00 €",
+      "expectedSubtotal": "30,00 €",
+      "expectedOrderTotal": "30,00 €"
+    }
+  },
+  "cap": {
+    "name": "Cap",
+    "type": "simple",
+    "quantity": 3,
+    "price": "20,00 €",
+    "expected": {
+      "path": "/cart/",
+      "expectedTotal": "48,00 €",
+      "expectedSubtotal": "48,00 €",
+      "expectedOrderTotal": "48,00 €"
+    }
+  },
+
+  "hoodie": {
+    "name": "Hoodie",
+    "type": "variable",
+    "price": "45,00 €",
+    "quantity": 2,
+    "options": {
+      "color": "blue",
+      "logo": "Yes"
+    },
+    "expected": {
+      "path": "/cart/",
+      "expectedTotal": "90,00 €",
+      "expectedSubtotal": "90,00 €",
+      "expectedOrderTotal": "90,00 €"
+    }
+  },
+
+  "logoCollection": {
+    "name": "Logo Collection",
+    "type": "grouped",
+    "price": "108,00 €",
+    "quantity": {
+        "Hoodie with Logo": 3,
+        "T-Shirt": 1,
+        "Beanie": 2
+    },
+    "options": {
+      "Hoodie with Logo": 2,
+      "T-Shirt": 1,
+      "Beanie": 2
+    },
+    "expected": {
+      "path": "/cart/",
+      "expectedTotal": "189,00 €",
+      "expectedSubtotal": "189,00 €",
+      "expectedOrderTotal": "189,00 €"
+    }
+  }
+}
