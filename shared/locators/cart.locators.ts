@@ -1,6 +1,10 @@
 export const cartLocators = {
   emptyMessage: ".cart-empty",
 
+  actions: {
+    updateButtonName: /Update cart/i,
+  },
+
   row: {
     container: "tr.cart_item",
     quantityInput: "input.qty",
@@ -10,9 +14,5 @@ export const cartLocators = {
   totals: {
     subtotal: ".cart-subtotal .amount",
     orderTotal: ".order-total .amount",
-  },
-
-  actions: {
-    updateButtonName: /Update cart/i,
-  },
+  }
 } as const;

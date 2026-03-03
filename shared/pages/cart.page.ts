@@ -38,7 +38,7 @@ export class CartPage extends BasePage {
   }
 
   private quantityInput(productName: string): Locator {
-    return this.cartRow(productName).locator(cartLocators.row.quantityInput);
+    return this.cartRow(productName).getByRole("spinbutton", { name: "Product quantity"});
   }
 
   // ============================================================================

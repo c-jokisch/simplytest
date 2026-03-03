@@ -15,12 +15,12 @@ export const shopExpect = baseExpect.extend({
            
         } catch {
             // URL did not match
-                pass = false,
-                message = `Expected URL to match ${expected}, but it did not.`
+            pass = false,
+            message = `Expected URL to match ${expected}, but it did not.`
         }
 
         return {
-            pass: false,
+            pass,
             message: () => message
         };
     }

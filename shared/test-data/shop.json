@@ -5,5 +5,20 @@
       "title": "Automation Test Project – A great opportunity to test a real-world example…",
       "h1": "Shop"
     }
-  }
+  },
+
+ "products": {
+    "Album": {
+      "name": "Album",
+      "type": "simple",
+      "quantity": 2,
+      "price": "15,00 €"
+    },
+    "cap": {
+      "name": "Cap",
+      "type": "simple",
+      "quantity": 3,
+      "price": "20,00 €"
+    }
+ }
 }

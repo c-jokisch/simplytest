@@ -2,32 +2,67 @@ import { BasePage } from "../pages/base.page";
 import { ShopPage } from "../pages/shop.page";
 import { CartPage } from "../pages/cart.page";
 import { ProductPage } from "../pages/product.page";
+import { CheckoutPage } from "../pages/checkout.page";
 import { test as base } from "@playwright/test";
 
+type Product = {
+  name: string;
+  type: string;
+  quantity: number;
+  price: string;
+};
+
 type Fixtures = {
-  basePage: BasePage
+  basePage: BasePage;
   shopPage: ShopPage;
   cartPage: CartPage;
   productPage: ProductPage;
+  checkoutPage: CheckoutPage;
+  checkoutReady:  CheckoutPage;
+  productsToAdd: Product[] | Record<string, Product>;
 };
 
 export const test = base.extend<Fixtures>({
-  basePage: async ({ page }, use) => {
-    const basePage = new BasePage( page );
-    await use(basePage);
-  },
-  shopPage: async ({ page }, use) => {
-    const shopPage = new ShopPage(page); 
-    await use(shopPage);
-  },
-  cartPage: async ({ page }, use) => {
-    const cartPage = new CartPage(page); 
-    await use(cartPage);
-  },
-  productPage: async ({ page }, use) => {
-    const productPage = new ProductPage(page); 
-    await use(productPage);
-  } 
-});
 
-export { expect } from '@playwright/test';
+  basePage: async ({ page }, use) => {
+    await use(new BasePage(page));
+  },
+
+  shopPage: async ({ page }, use) => {
+    await use(new ShopPage(page));
+  },
+
+  cartPage: async ({ page }, use) => {
+    await use(new CartPage(page));
+  },
+
+  productPage: async ({ page }, use) => {
+    await use(new ProductPage(page));
+  },
+
+  checkoutPage: async ({ page }, use) => {
+    await use(new CheckoutPage(page));
+  },
+
+  // option fixture
+  productsToAdd: [[], { option: true }],
+
+  checkoutReady: async ( { basePage, shopPage, productPage, cartPage, checkoutPage, productsToAdd }, use ) => {
+    
+    const normalizedProducts: Product[] = Array.isArray(productsToAdd)
+      ? productsToAdd
+      : Object.values(productsToAdd ?? {});
+
+    for (const product of normalizedProducts) {
+      await basePage.gotoPage("");
+      await shopPage.selectProduct(product.name, product.type);
+      await productPage.configure(product);
+      await cartPage.configureCartForProduct(product);
+    }
+    await cartPage.gotoPage("/checkout/");
+    await checkoutPage.waitUntilLoaded();
+
+     await use(checkoutPage);
+  },
+
+});

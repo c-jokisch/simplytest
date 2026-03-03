@@ -26,7 +26,6 @@ export class ProductPage {
     return this.page.locator(productLocators.grouped.row, { has: this.page.getByRole("link", { name: productName }) });
   }
 
-  // Note: No filter for productname as it varies depending on the product type
   private successBanner(): Locator {
     return this.page.locator(productLocators.messages.success);
   }
@@ -84,7 +83,7 @@ export class ProductPage {
 
     switch (product.type) {
 
-      // Simple products do not have any options to configure, so we can directly add them to the cart
+      // Simple products do not have any options to configure, so it can directly be added to the cart
       case "simple":
         await this.viewCartLinkbyProduct(product.name).click(); 
         break;

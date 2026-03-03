@@ -9,27 +9,13 @@ import shopData from "../shared/test-data/shop.json";
 // FEATURE: Shopping Cart
 // ============================================================================
 
-
-test('Check the current state of the shopping page', async ({ basePage, cartPage }, testInfo) => {
-
-    // GIVEN the cart page
-    // WHEN visiting the cart page
-    await basePage.gotoPage(testInfo.project.use.baseURL);
-      
-    await baseExpect(cartPage).toHaveNavigatedSuccessfully({
-          url: shopData.shop.expected.url,
-          title: shopData.shop.expected.title,
-          h1: shopData.shop.expected.h1,
-    });
-
-  }); 
-
 test.beforeEach(async ({ basePage },  testInfo) => {
 
   // --------------------------------------------------------------------------
   // Background
   // --------------------------------------------------------------------------
     await basePage.gotoPage(testInfo.project.use.baseURL);
+  // Falls du sicher gehen willst:
 
   });
 
@@ -38,6 +24,19 @@ test.beforeEach(async ({ basePage },  testInfo) => {
   // --------------------------------------------------------------------------
 
   test.describe("Feature: Shopping Cart", () => {
+
+    test('Check the current state of the shopping page', async ({ cartPage }) => {
+
+    // GIVEN the cart page
+    // WHEN visiting the cart page
+
+    await baseExpect(cartPage).toHaveNavigatedSuccessfully({
+          url: shopData.shop.expected.url,
+          title: shopData.shop.expected.title,
+          h1: shopData.shop.expected.h1,
+    });
+
+  }); 
 
     test('Empty cart is displayed when no products exist', async ({ basePage, cartPage }) => {
       // GIVEN no products in the cart
@@ -62,10 +61,11 @@ test.beforeEach(async ({ basePage },  testInfo) => {
         // THEN the product is added to the cart with correct details
         await cartExpect(cartPage).toBeCartUpdatedProducts(product.expected.path, product.expected.expectedSubtotal, product.expected.expectedTotal, product.expected.expectedOrderTotal); 
 
-        }
-      );
-    }
+        },
+       );}
+    });
   }); 
-});
+
+
 
 
