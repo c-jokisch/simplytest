@@ -47,19 +47,19 @@ export const test = base.extend<Fixtures>({
   // option fixture
   productsToAdd: [[], { option: true }],
 
-  checkoutReady: async ( { basePage, shopPage, productPage, cartPage, checkoutPage, productsToAdd }, use ) => {
+  checkoutReady: async ( { basePage, shopPage, productPage, cartPage, checkoutPage, productsToAdd, page }, use ) => {
     
     const normalizedProducts: Product[] = Array.isArray(productsToAdd)
       ? productsToAdd
       : Object.values(productsToAdd ?? {});
 
     for (const product of normalizedProducts) {
-      await basePage.gotoPage("");
+      await page.goto("/");
       await shopPage.selectProduct(product.name, product.type);
       await productPage.configure(product);
       await cartPage.configureCartForProduct(product);
     }
-    await cartPage.gotoPage("/checkout/");
+    await page.goto("/checkout/");
     await checkoutPage.waitUntilLoaded();
 
      await use(checkoutPage);

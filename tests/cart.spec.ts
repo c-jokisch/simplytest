@@ -9,12 +9,12 @@ import shopData from "../shared/test-data/shop.json";
 // FEATURE: Shopping Cart
 // ============================================================================
 
-test.beforeEach(async ({ basePage },  testInfo) => {
+test.beforeEach(async ({ basePage, page },  testInfo) => {
 
   // --------------------------------------------------------------------------
   // Background
   // --------------------------------------------------------------------------
-    await basePage.gotoPage(testInfo.project.use.baseURL);
+    await page.goto(testInfo.project.use.baseURL);
   // Falls du sicher gehen willst:
 
   });
@@ -38,10 +38,10 @@ test.beforeEach(async ({ basePage },  testInfo) => {
 
   }); 
 
-    test('Empty cart is displayed when no products exist', async ({ basePage, cartPage }) => {
+    test('Empty cart is displayed when no products exist', async ({ basePage, cartPage, page }) => {
       // GIVEN no products in the cart
       // WHEN visiting the cart page
-      await basePage.gotoPage("/cart/");
+      await page.goto("/cart/");
       // THEN an empty cart is displayed
       await cartExpect(cartPage).toBeEmptyCart();
     });

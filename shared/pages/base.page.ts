@@ -40,11 +40,4 @@ export class BasePage {
   // ACTIONS
   // ============================================================================
 
-  /**
-   * Navigate to a specific path
-   */
-  async gotoPage(path: string): Promise<void> {
-    await this.page.goto(path);
-  }
-  
 }

@@ -70,11 +70,11 @@ export const checkoutExpect = expect.extend({
         };
     },
 
-    async toContainErrors(checkoutPage: CheckoutPage, expectedMessages: string[]) {
+    async toContainErrors(checkoutPage: CheckoutPage, expectedMessages: { errors: string[] }) {
 
         const errors: string[] = [];
 
-        for (const expected of expectedMessages) {
+        for (const expected of expectedMessages.errors) {
             try {
                 await expect(checkoutPage.errorBox()).toContainText(expected);
             } catch {

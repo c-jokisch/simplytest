@@ -1,5 +1,3 @@
-import { errorMonitor } from "node:events";
-
 export const checkoutLocators = {
   form: {
     container: 'form.checkout',

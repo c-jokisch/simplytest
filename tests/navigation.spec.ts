@@ -4,23 +4,23 @@ import { expect as baseExpect } from "../shared/matchers/base.matcher";
 
 test.describe("Feature: Navigation", ( ) => {
 
-  for (const page of navData.pages) {
+  for (const pagePath of navData.pages) {
 
     test(
-      `Navigates to "${page.label}" page successfully`,
-      async ({ shopPage, basePage }, testInfo) => {
+      `Navigates to "${pagePath.label}" page successfully`,
+      async ({ shopPage, basePage, page }, testInfo) => {
 
         // GIVEN the webshop homepage
-        await shopPage.gotoPage(testInfo.project.use.baseURL);
+        await page.goto(testInfo.project.use.baseURL);
 
         // WHEN the user navigates to the page
-        await basePage.gotoPage(page.path);
+        await page.goto(pagePath.path);
 
         // THEN the correct URL, title and headline are displayed
         await baseExpect(shopPage).toHaveNavigatedSuccessfully({
-          url: page.path,
-          title: page.title,
-          h1: page.h1,
+          url: pagePath.path,
+          title: pagePath.title,
+          h1: pagePath.h1,
         });
       }
     );

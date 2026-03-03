@@ -19,7 +19,7 @@ test.describe("Feature: Checkout Process", () => {
         await checkoutReady.placeOrder();
         
         await checkoutExpect(checkoutReady).toCompleteProcessing();
-        await checkoutExpect(checkoutReady).toContainErrors(["First name", "Street address", "Postcode", "Town", "Phone"]);
+        await checkoutExpect(checkoutReady).toContainErrors(checkoutData.checkout.invalidUser.expected);
 
     });
 
@@ -28,7 +28,7 @@ test.describe("Feature: Checkout Process", () => {
         await checkoutReady.placeOrder();
 
         await checkoutExpect(checkoutReady).toCompleteProcessing();
-        await checkoutExpect(checkoutReady).toContainErrors(["email address"]);
+        await checkoutExpect(checkoutReady).toContainErrors(checkoutData.checkout.invalidUserMail.expected);
     });
 
 });

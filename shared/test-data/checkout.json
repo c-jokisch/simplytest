@@ -19,7 +19,16 @@
       "city": "",
       "postcode": "",
       "phone": "abc",
-      "email": "max@test.de"
+      "email": "max@test.de",
+      "expected": {
+        "errors": [
+          "First name",
+          "Street address",
+          "Postcode",
+          "Town",
+          "Phone"
+        ]
+      }
     },
     "invalidUserMail": {
       "firstName": "Max",
@@ -29,7 +38,12 @@
       "city": "Berlin",
       "postcode": "10115",
       "phone": "01701234567",
-      "email": "invalid_mail"
+      "email": "invalid_mail",
+      "expected": {
+        "errors": [
+          "email address"
+        ]
+      }
     }
   }
 }
