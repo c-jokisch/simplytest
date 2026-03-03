@@ -8,7 +8,7 @@ declare global {
       toHaveURL(shopPage: ShopPage, expected: RegExp | string): Promise<R>;
       toHaveNavigatedSuccessfully(expected: { url: string; title: string; h1: string }): Promise<R>;
       toBeEmptyCart(cartPage: CartPage): Promise<R>;
-      toBeCartUpdatedProducts(expectedPath: string, expectedSubtotal: string, expectedTotal: string, expectedOrderTotal: string): Promise<R>; 
+      toBeCartUpdatedProducts(expectedPath: string, expectedSubtotal: string, expectedTotal: string, expectedOrderTotal: string): Promise<R>;
     }
   }
 }

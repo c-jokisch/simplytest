@@ -4,11 +4,10 @@ import { BasePage } from "./base.page";
 
 export class CartPage extends BasePage {
 
-
   constructor(page: Page) {
     super( page );
   }
-
+ 
   // ============================================================================
   // LOCATORS
   // ============================================================================

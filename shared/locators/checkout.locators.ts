@@ -1,3 +1,5 @@
+import { errorMonitor } from "node:events";
+
 export const checkoutLocators = {
   form: {
     container: 'form.checkout',
@@ -27,6 +29,7 @@ export const checkoutLocators = {
     productRows: 'tr.cart_item',
     subtotalRow: '.cart-subtotal',
     totalRow: '.order-total',
+    errorMonitor: '.woocommerce-error'
   },
 
   payment: {

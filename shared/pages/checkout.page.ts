@@ -1,5 +1,6 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { checkoutLocators } from "../locators/checkout.locators";
+import { BasePage } from "./base.page";
 
 export interface BillingDetails {
   firstName?: string;
@@ -15,20 +16,23 @@ export interface BillingDetails {
   orderNotes?: string;
 }
 
-export class CheckoutPage {
-
-  readonly page: Page;
+export class CheckoutPage extends BasePage  {
 
   constructor(page: Page) {
-    this.page = page;
+    super( page );
   }
+ 
 
   // ============================================================================
   // LOCATORS
   // ============================================================================
 
-  private form(): Locator {
+  public form(): Locator {
     return this.page.locator(checkoutLocators.form.container);
+  }
+
+  public errorBox(): Locator {
+    return this.page.locator(checkoutLocators.orderReview.errorMonitor);
   }
 
   private placeOrderButton(): Locator {
@@ -127,13 +131,7 @@ export class CheckoutPage {
   }
 
   async placeOrder(): Promise<void> {
-    await Promise.all([
-      this.page.waitForNavigation(),
-      this.placeOrderButton().click(),
-    ]);
+    await this.placeOrderButton().click();
   }
 
-  async expectOrderSuccess(): Promise<void> {
-    await expect(this.page).toHaveURL(checkoutLocators.states.successUrl);
-  }
 }
