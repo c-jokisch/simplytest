@@ -1,19 +1,19 @@
-import { Page, expect, Locator } from "@playwright/test";
+import { expect as baseExpect } from "@playwright/test";
 import { CheckoutPage } from "../pages/checkout.page";
 
-export const checkoutExpect = expect.extend({
+export const checkoutExpect = baseExpect.extend({
 
   async toBeOrderSuccessful(checkoutPage: CheckoutPage) {
     const errors: string[] = [];
 
     try {
-      await expect(checkoutPage.pageInstance).toHaveURL(/order-received/i);
+      await baseExpect(checkoutPage.pageInstance).toHaveURL(/order-received/i);
     } catch {
       errors.push("Did not navigate to order confirmation page.");
     }
 
     try {
-      await expect(
+      await baseExpect(
         checkoutPage.pageInstance.getByRole("heading", { level: 1 })).toHaveText(/Order received/i);
     } catch {
         errors.push("Success heading not displayed.");
@@ -31,7 +31,7 @@ export const checkoutExpect = expect.extend({
         const errors: string[] = [];
 
         try {
-            await expect(checkoutPage.pageInstance.getByRole("alert")).toContainText(expectedMessage);
+            await baseExpect(checkoutPage.pageInstance.getByRole("alert")).toContainText(expectedMessage);
         } catch {
             errors.push(`Expected validation message "${expectedMessage}" not shown.`);
         }
@@ -50,13 +50,13 @@ export const checkoutExpect = expect.extend({
         const errors: string[] = [];
 
         try {
-            await expect(checkoutPage.form()).toHaveClass(/processing/);
+            await baseExpect(checkoutPage.form()).toHaveClass(/processing/);
         } catch {
            errors.push("Form never entered processing state.");
         }
 
         try {
-            await expect(checkoutPage.form()).not.toHaveClass(/processing/);
+            await baseExpect(checkoutPage.form()).not.toHaveClass(/processing/);
         } catch {
             errors.push("Form did not exit processing state.");
         }
@@ -76,7 +76,7 @@ export const checkoutExpect = expect.extend({
 
         for (const expected of expectedMessages.errors) {
             try {
-                await expect(checkoutPage.errorBox()).toContainText(expected);
+                await baseExpect(checkoutPage.errorBox()).toContainText(expected);
             } catch {
                 errors.push(`Missing validation error: "${expected}"`);
             }    

@@ -73,6 +73,7 @@ export class ProductPage {
 
     for (const [productName, quantity] of Object.entries(quantities)) {
       await this.groupedQuantityInput(productName).waitFor({ state: "visible" });
+      // Note: Fill accepts strings
       await this.groupedQuantityInput(productName).fill(String(quantity));
     }
 

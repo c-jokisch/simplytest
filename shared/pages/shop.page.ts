@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 import { shopLocators } from "../locators/shop.locators";
 import { BasePage } from "./base.page";
 
@@ -16,8 +16,9 @@ export class ShopPage extends BasePage {
   // LOCATORS
   // ============================================================================
 
-  private productContainer(productName: string): Locator {
-    return this.page.locator(shopLocators.product.container).filter({ has: this.page.getByRole("heading", { name: productName })});
+  public productContainer(productName: string): Locator {
+    // Note: Hoodie or Hoodie with Logo thus, exact: true added
+    return this.page.locator(shopLocators.product.container).filter({ has: this.page.getByRole("heading", { name: productName, exact: true })});
   }
 
   private addToCartButton(productName: string): Locator {
@@ -38,7 +39,6 @@ export class ShopPage extends BasePage {
 
 private async waitForProductNotLoading(product: Locator) {
   const handle = await product.elementHandle();
-
   // Check if the product has a handle and wait for the loading state to be removed
   if (handle) {
     await this.page.waitForFunction(
@@ -53,8 +53,7 @@ private async waitForProductNotLoading(product: Locator) {
 
 private async waitForProductAdded(product: Locator) {
   const handle = await product.elementHandle();
-
-  // check if the product has been added to the cart by waiting for the "added" state to be applied
+  // check if the product has been added to the cart by waiting for the added state to be applied
   if (handle) {
     await this.page.waitForFunction(
       ({ el, className }) => el.classList.contains(className),
@@ -72,8 +71,24 @@ private async waitForProductAdded(product: Locator) {
   switch (type) {
       case "simple": {
         await this.addToCartButton(productName).click();
+
+        // both approaches work reliably
+
+        // Approach 1
+        // includes auto-retry and pulls the DOM state
+        // wait for the specific state being fullfilled 
+
+        //await expect(this.addToCartButton(productName)).not.toHaveClass(new RegExp(shopLocators.product.states.loading));
+        //await expect(this.addToCartButton(productName)).toHaveClass(new RegExp(shopLocators.product.states.added)); 
+
+        // Approach 2
+        // Instead of using Playwright expect(), we explicitly wait
+        // for DOM state transitions triggered
+        // 1. Wait until the "loading" CSS class is removed
         await this.waitForProductNotLoading(this.addToCartButton(productName));
+        // 1. Wait until the "loading" CSS class is removed 
         await this.waitForProductAdded(this.addToCartButton(productName));
+
         break;
       }
 

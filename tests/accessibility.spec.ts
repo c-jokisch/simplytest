@@ -9,9 +9,7 @@ test.describe("Feature: Accessibility", () => {
 
   for (const nav of navData.pages) {
 
-    test(
-      `"${nav.label}" meets WCAG 2A and 2AA standards`,
-      async ({ page }) => {
+    test(`"${nav.label}" meets WCAG 2A and 2AA standards`, async ({ page }) => {
 
         // GIVEN the homepage
         await page.goto(nav.path);

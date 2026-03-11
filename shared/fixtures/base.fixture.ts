@@ -5,6 +5,10 @@ import { ProductPage } from "../pages/product.page";
 import { CheckoutPage } from "../pages/checkout.page";
 import { test as base } from "@playwright/test";
 
+/**
+ * Domain model for products used in test setup.
+*/
+
 type Product = {
   name: string;
   type: string;
@@ -12,14 +16,22 @@ type Product = {
   price: string;
 };
 
+/**
+ * Custom fixtures available in tests.
+*/
+
 type Fixtures = {
   basePage: BasePage;
   shopPage: ShopPage;
   cartPage: CartPage;
   productPage: ProductPage;
   checkoutPage: CheckoutPage;
-  checkoutReady:  CheckoutPage;
   productsToAdd: Product[] | Record<string, Product>;
+
+  /**
+   * Prepares checkout state with products already added to cart.
+  */
+  checkoutReady:  CheckoutPage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -44,23 +56,31 @@ export const test = base.extend<Fixtures>({
     await use(new CheckoutPage(page));
   },
 
-  // option fixture
   productsToAdd: [[], { option: true }],
 
-  checkoutReady: async ( { basePage, shopPage, productPage, cartPage, checkoutPage, productsToAdd, page }, use ) => {
+  /**
+     * checkoutReady fixture
+     *
+     * Prepares the checkout state by:
+     * 1. Navigating to shop
+     * 2. Selecting product
+     * 3. Configuring product
+     * 4. Updating cart
+     *
+     * This acts as a technical GIVEN for checkout tests.
+   */
+
+  checkoutReady: async ( { shopPage, productPage, cartPage, checkoutPage, productsToAdd }, use ) => {
     
-    const normalizedProducts: Product[] = Array.isArray(productsToAdd)
-      ? productsToAdd
-      : Object.values(productsToAdd ?? {});
+    // Normalize productsToAdd to always work with an array
+    const normalizedProducts: Product[] = Array.isArray(productsToAdd) ? productsToAdd: Object.values(productsToAdd ?? {});
 
     for (const product of normalizedProducts) {
-      await page.goto("/");
+      await shopPage.pageInstance.goto("/");
       await shopPage.selectProduct(product.name, product.type);
       await productPage.configure(product);
       await cartPage.configureCartForProduct(product);
     }
-    await page.goto("/checkout/");
-    await checkoutPage.waitUntilLoaded();
 
      await use(checkoutPage);
   },

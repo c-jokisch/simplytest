@@ -37,32 +37,37 @@ export class CartPage extends BasePage {
   }
 
   private quantityInput(productName: string): Locator {
-    return this.cartRow(productName).getByRole("spinbutton", { name: "Product quantity"});
+    return this.cartRow(productName).getByRole("spinbutton", { name: cartLocators.actions.updateQuantity });
   }
 
   // ============================================================================
   // ACTIONS
   // ============================================================================
 
+  // Note: application does not react reliably on fill()-operations 
 private async setQuantity(productName: string, quantity: number): Promise<void> {
   const input = this.quantityInput(productName);
 
     // Ensure the quantity input is rendered and interactable before setting the value
     await input.waitFor({ state: "visible" });
 
+    // Note: waitforEnabled works for all browsers reliably except for webkit 
+    // Button gets enabled and then disabled
+
     // Clear the existing value and type the new quantity with a slight delay to mimic user input
     await input.clear();
     await input.type(String(quantity), { delay: 50 });
 
     // Clicking outside the input to trigger any change events
+    // But: not authentic user interaction
     await input.press('Tab');
+    // Exception as there is a need to make sure the button is enabled 
+    await expect(input).toHaveValue(String(quantity));
+    await expect(this.updateCartButton).toBeEnabled();
 
   }
 
-  async configureCartForProduct(product: {
-    name: string;
-    quantity?: number | Record<string, number>;
-  }): Promise<void> {
+  async configureCartForProduct(product: { name: string; quantity?: number | Record<string, number>; }): Promise<void> {
 
     if (!product.quantity) return;
 

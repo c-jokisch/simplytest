@@ -1,7 +1,9 @@
 import { expect as baseExpect } from "@playwright/test";
 import { ShopPage } from "../pages/shop.page";
 import { CartPage } from "../pages/cart.page";
+import { CheckoutPage } from "../pages/checkout.page";
 
+// Deklariere zusätzliche Matcher 
 declare global {
   namespace PlaywrightTest {
     interface Matchers<R, T> {
@@ -9,6 +11,10 @@ declare global {
       toHaveNavigatedSuccessfully(expected: { url: string; title: string; h1: string }): Promise<R>;
       toBeEmptyCart(cartPage: CartPage): Promise<R>;
       toBeCartUpdatedProducts(expectedPath: string, expectedSubtotal: string, expectedTotal: string, expectedOrderTotal: string): Promise<R>;
+      toBeOrderSuccessful(checkoutPage: CheckoutPage): Promise<R>;
+      toShowValidationError(checkoutPage: CheckoutPage, expectedMessage: RegExp): Promise<R>;
+      toCompleteProcessing(checkoutPage: CheckoutPage): Promise<R>;
+      toContainErrors(checkoutPage: CheckoutPage, expectedMessages: { errors: string[] }): Promise<R>;
     }
   }
 }

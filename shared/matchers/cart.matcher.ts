@@ -1,6 +1,15 @@
 import { expect as baseExpect } from "@playwright/test";
 import cartData from "../test-data/cart.json";
 import { CartPage } from "../pages/cart.page";
+import { cartLocators } from "../locators/cart.locators";
+
+type CartExpectation = {
+  path: string;
+  expectedSubtotal: string;
+  expectedTotal: string;
+  expectedOrderTotal: string;
+};
+
 
 export const cartExpect = baseExpect.extend({
   async toBeEmptyCart(cartPage: CartPage) {
@@ -36,37 +45,37 @@ export const cartExpect = baseExpect.extend({
     };
   },
 
-  async toBeCartUpdatedProducts(cartPage: CartPage, expectedPath: string, expectedSubtotal: string, expectedTotal: string, expectedOrderTotal: string) {
+  async toBeCartUpdatedProducts(cartPage: CartPage, expected: CartExpectation) {
     const errors: string[] = [];
 
     try {
-      await baseExpect(cartPage.pageInstance).toHaveURL(expectedPath);
+      await baseExpect(cartPage.pageInstance).toHaveURL(expected.path);
     } catch {
-      errors.push(`Expected URL to contain "${expectedPath}".`);
+      errors.push(`Expected URL to contain "${expected.path}".`);
     }
 
     try {
-      await baseExpect(cartPage.pageInstance.getByRole("alert")).toHaveText(/Cart updated\./i);
+      await baseExpect(cartPage.pageInstance.getByRole("alert")).toHaveText(cartLocators.successMessageName);
     } catch {
       errors.push("Cart updated message not displayed.");
     }
 
     try {
-      await baseExpect(cartPage.cartTotalsSubtotal).toHaveText(expectedSubtotal);
+      await baseExpect(cartPage.cartTotalsSubtotal).toHaveText(expected.expectedSubtotal);
     } catch  {
-      errors.push(`Cart subtotal is not "${expectedSubtotal}".`);
+      errors.push(`Cart subtotal is not "${expected.expectedSubtotal}".`);
     }
 
     try {
-      await baseExpect(cartPage.cartOrderTotal).toHaveText(expectedOrderTotal);
+      await baseExpect(cartPage.cartOrderTotal).toHaveText(expected.expectedOrderTotal);
     } catch  {
-      errors.push(`Cart order total is not "${expectedOrderTotal}".`);
+      errors.push(`Cart order total is not "${expected.expectedOrderTotal}".`);
     } 
 
     try {
-      await baseExpect(cartPage.cartHeaderTotal).toHaveText(expectedTotal);
+      await baseExpect(cartPage.cartHeaderTotal).toHaveText(expected.expectedTotal);
     } catch  {
-      errors.push(`Cart total is not "${expectedTotal}".`);
+      errors.push(`Cart total is not "${expected.expectedTotal}".`);
     }
 
     const pass = errors.length === 0;

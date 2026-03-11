@@ -2,6 +2,7 @@ import { expect as baseExpect } from "@playwright/test";
 import { ShopPage } from "../pages/shop.page";
 
 export const shopExpect = baseExpect.extend({
+
     // Validates that the shop page URL matches the expected pattern
     async toHaveURL(shopPage: ShopPage, expected: RegExp | string) {
         let message: string;
